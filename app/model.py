@@ -16,7 +16,7 @@ class CompletionModel:
         )
         self.model.eval()
 
-    def complete(self, prefix: str, max_new_tokens: int = 48) -> str:
+    def complete(self, prefix: str, max_new_tokens: int = 8) -> str:
         inputs = self.tokenizer(prefix, return_tensors="pt")
 
         with torch.inference_mode():
