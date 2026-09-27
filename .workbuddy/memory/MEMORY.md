@@ -15,6 +15,8 @@ local-completion：基于 Qwen3-0.6B 的本地 inline completion（类 Copilot�
 ## 已确认的技术决策
 
 - 模型加载 dtype：bfloat16 或 float32，禁用 float16
+- 实测：CPU 上 bf16 与 fp32 速度持平（均 8–10 tok/s，8 线程），bf16 仅省内存，选 bf16
+- `device_map` 参数不需要用（会强依赖 accelerate，本机没装），模型默认就在 CPU
 - Qwen3 必须显式关闭 thinking 模式，否则补全被思考内容污染
 - CPU 量化路线：GGUF（llama.cpp）或 ONNX Runtime，不用 bitsandbytes
 - 评估集要早建，不要等最后才 benchmark
