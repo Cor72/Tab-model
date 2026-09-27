@@ -1,0 +1,6 @@
+{"id":"zh-story-001","task":"prose","prefix":"我今天去了东京，然后","reference":"去了秋叶原。","note":"参考方向；合理续写不要求逐字相同，优先看是否简短、连贯。"}
+{"id":"zh-story-002","task":"prose","prefix":"周末天气很好，我打算","reference":"去公园散步。","note":"参考方向；避免无根据地扩展成一整段故事。"}
+{"id":"zh-story-003","task":"prose","prefix":"她打开冰箱，发现里面","reference":"只剩下一瓶牛奶。","note":"检查续写是否自然接上前缀。"}
+{"id":"code-python-001","task":"code","prefix":"def square(x):\n    ","reference":"return x * x","note":"检查代码缩进和语法是否合理。"}
+{"id":"code-python-002","task":"code","prefix":"def is_even(n):\n    ","reference":"return n % 2 == 0","note":"优先检查代码是否能完成函数意图。"}
+{"id":"code-python-003","task":"code","prefix":"for i in range(3):\n    print(","reference":"i)","note":"检查是否能接着当前光标位置补完表达式。"}
