@@ -45,7 +45,6 @@ class CompletionModel:
                 do_sample=True,
                 top_k=50,
                 num_beams=1,
-                early_stopping=True,
                 no_repeat_ngram_size=3,
                 penalty_alpha=0.6,
             )
