@@ -18,31 +18,36 @@ class CompletionModel:
 
     def complete(self, prefix: str, max_new_tokens: int = 24) -> str:
 
-        # messages = [
-        #     {
-        #         "role": "user",
-        #         "content": f"请自然地续写下面这段话，只输出续写内容，不要解释：\n{prefix}",
-        #     }
-        # ]
+        messages = [
+            {
+                "role": "user",
+                "content": (
+                    "请接着下面的前缀续写，只补完当前句子。"
+                    "只输出新增内容，不重复前缀，不解释。\n"
+                    f"前缀：{prefix}"
+                ),
+            }
+        ]
 
-        # prompt = self.tokenizer.apply_chat_template(
-        #     messages,
-        #     tokenize=False,
-        #     add_generation_prompt=True,
-        # )
+        prompt = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
 
-        inputs = self.tokenizer(prefix, return_tensors="pt")
+        inputs = self.tokenizer(prompt, return_tensors="pt")
 
         with torch.inference_mode():
             output = self.model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
-                do_sample=False,
-                # top_k=50,
-                # num_beams=1,
-                # early_stopping=True,
-                # no_repeat_ngram_size=3,
-                # penalty_alpha=0.6,
+                do_sample=True,
+                top_k=50,
+                num_beams=1,
+                early_stopping=True,
+                no_repeat_ngram_size=3,
+                penalty_alpha=0.6,
             )
 
         new_tokens = output[0, inputs["input_ids"].shape[1]:]
