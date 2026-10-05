@@ -26,14 +26,19 @@ class CompletionModel:
                 max_new_tokens=max_new_tokens,
                 do_sample=True,
                 top_k=50,
+                top_p=0.9,
+                temperature=0.5,
+                stop_strings=["。", "！", "？"],
+                tokenizer=self.tokenizer,
             )
 
         # 只返回新增的文字，不包含输入前缀。
         new_tokens = output[0, inputs["input_ids"].shape[1]:]
-        return self.tokenizer.decode(
-            new_tokens,
-            skip_special_tokens=True,
-        )
+        text = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        # 一个 token 可能包含标点之后的文字，再裁剪一次。
+        for index, char in enumerate(text):
+            if char in "。！？":
+                return text[:index + 1]
 
-        new_tokens = output[0, inputs["input_ids"].shape[1]:]
-        return self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        # 到达上限仍没有完整句末：不展示这条残缺候选。
+        return ""
